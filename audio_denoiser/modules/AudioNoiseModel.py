@@ -18,7 +18,7 @@ class AudioNoiseModel(nn.Module, PyTorchModelHubMixin):
         scaler_dict = config['scaler']
         self.scaler = SpectrogramScaler.from_dict(scaler_dict)
         self.in_channels = config.get('in_channels', 257)
-        self.roberta_hidden_size = config.get('roberta_hidden_size', 512)
+        self.roberta_hidden_size = config.get('roberta_hidden_size', 768)
         self.model1 = nn.Sequential(
             nn.Conv1d(self.in_channels, 1024, kernel_size=1),
             nn.ELU(),

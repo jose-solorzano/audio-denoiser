@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 # Define project metadata
 NAME = 'audio-denoiser'
-VERSION = '0.0.6'
+VERSION = '0.1.0'
 DESCRIPTION = 'A Python library for (speech) audio denoising.'
 AUTHOR = 'Jose Solorzano'
 URL = 'https://github.com/jose-solorzano/audio-denoiser'  # TODO make it public
@@ -33,7 +33,6 @@ setup(
     packages=['audio_denoiser', 'audio_denoiser.modules', 'audio_denoiser.helpers'],
     install_requires=REQUIRES,
     classifiers=[
-        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries',

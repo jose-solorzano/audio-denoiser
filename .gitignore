@@ -15,3 +15,5 @@ dist/
 dist/**
 build/
 build/**
+*.egg-info/
+*.egg-info/**

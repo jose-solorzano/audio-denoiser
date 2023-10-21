@@ -53,6 +53,14 @@ class AudioDenoiser:
     def process_waveform(self, waveform: torch.Tensor, sample_rate: int,
                          return_cpu_tensor: bool = False,
                          auto_scale: bool = False) -> torch.Tensor:
+        """
+        Denoises a waveform.
+        @param waveform: A waveform tensor. Use torchaudio structure.
+        @param sample_rate: The sample rate of the waveform in Hz.
+        @param return_cpu_tensor: Whether the returned tensor must be a CPU tensor.
+        @param auto_scale: Normalize the scale of the waveform before processing. Recommended for low-volume audio.
+        @return: A denoised waveform.
+        """
         waveform = waveform.cpu()
         if auto_scale:
             w_t_std = self._trimmed_dev(waveform)
@@ -97,6 +105,12 @@ class AudioDenoiser:
             return cpu_results if return_cpu_tensor else cpu_results.to(self.device)
 
     def process_audio_file(self, in_audio_file: str, out_audio_file: str, auto_scale: bool = False):
+        """
+        Denoises an audio file.
+        @param in_audio_file: An input audio file with a format supported by torchaudio.
+        @param out_audio_file: Am output audio file with a format supported by torchaudio.
+        @param auto_scale: Whether the input waveform scale should be normalized before processing. Recommended for low-volume audio.
+        """
         waveform, sample_rate = torchaudio.load(in_audio_file)
         denoised_waveform = self.process_waveform(waveform, sample_rate, return_cpu_tensor=True, auto_scale=auto_scale)
         torchaudio.save(out_audio_file, denoised_waveform, sample_rate=self.model_sample_rate)
