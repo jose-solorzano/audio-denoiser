@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: audio-denoiser
+Version: 0.0.6
+Summary: A Python library for (speech) audio denoising.
+Home-page: https://github.com/jose-solorzano/audio-denoiser
+Author: Jose Solorzano
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+
+This is a Python library for denoising audio files that contain speech.
+It uses a lightweight machine learning model.
+
+## Installation
+
+    pip install audio-denoiser
+
+## Usage
+

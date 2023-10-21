@@ -1,0 +1,17 @@
+cred/
+cred/**
+venv/
+venv/**
+.idea/
+.idea/**
+vast-artifacts/*
+local-vast-artifacts/*
+__pycache__/
+__pycache__/**
+.git/**
+*.egginfo/
+*.egginfo/**
+dist/
+dist/**
+build/
+build/**
