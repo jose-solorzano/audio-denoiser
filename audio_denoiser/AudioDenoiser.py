@@ -16,10 +16,6 @@ class AudioDenoiser:
     def __init__(self, model_name='jose-h-solorzano/audio-denoiser-512-32-v1',
                  device: Union[str, torch.device] = None, num_iterations: int = 100):
         super().__init__()
-        current_backend = torchaudio.get_audio_backend()
-        if current_backend != _recommended_backend:
-            logging.warning(f'Current torchaudio backend is "{current_backend}". ' +
-                            f'Backend "{_recommended_backend}" is recommended.')
         if device is None:
             is_cuda = torch.cuda.is_available()
             if not is_cuda:
