@@ -7,6 +7,12 @@ different types of ambient noise.
 
     pip install audio-denoiser
 
+In Windows, you need the `soundfile` audio backend:
+
+    pip install soundfile
+
+In Linux, both the `soundfile` and `sox` audio backends should be supported. Note that the library is trained with the `soundfile` backend.
+
 ## Usage
 
 Basic:
@@ -24,8 +30,6 @@ With additional options:
     import torch
     import torchaudio
     
-    # Use the "soundfile" audio backend, used in training.
-    torchaudio.set_audio_backend("soundfile")
     # Use a CUDA device for inference if available
     device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
     denoiser = AudioDenoiser(device=device)
