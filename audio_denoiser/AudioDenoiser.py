@@ -1,6 +1,6 @@
 import logging
 import math
-from typing import Union
+from typing import Union, Optional
 import torch
 import torchaudio
 from torch import nn
@@ -9,7 +9,6 @@ from audio_denoiser.modules.AudioNoiseModel import AudioNoiseModel
 from audio_denoiser.helpers.audio_helper import create_spectrogram, reconstruct_from_spectrogram
 
 _expected_t_std = 0.23
-_recommended_backend = 'soundfile'
 
 
 class AudioDenoiser:
@@ -100,13 +99,15 @@ class AudioDenoiser:
             cpu_results = torch.cat(results)
             return cpu_results if return_cpu_tensor else cpu_results.to(self.device)
 
-    def process_audio_file(self, in_audio_file: str, out_audio_file: str, auto_scale: bool = False):
+    def process_audio_file(self, in_audio_file: str, out_audio_file: str, auto_scale: bool = False,
+                           backend: Optional[str] = None):
         """
         Denoises an audio file.
         @param in_audio_file: An input audio file with a format supported by torchaudio.
         @param out_audio_file: Am output audio file with a format supported by torchaudio.
         @param auto_scale: Whether the input waveform scale should be normalized before processing. Recommended for low-volume audio.
+        @param backend: The torchaudio I/O backend to use.
         """
-        waveform, sample_rate = torchaudio.load(in_audio_file)
+        waveform, sample_rate = torchaudio.load(in_audio_file, backend=backend)
         denoised_waveform = self.process_waveform(waveform, sample_rate, return_cpu_tensor=True, auto_scale=auto_scale)
         torchaudio.save(out_audio_file, denoised_waveform, sample_rate=self.model_sample_rate)

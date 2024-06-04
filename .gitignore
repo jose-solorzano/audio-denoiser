@@ -17,3 +17,6 @@ build/
 build/**
 *.egg-info/
 *.egg-info/**
+scratch/
+scratch/**
+
