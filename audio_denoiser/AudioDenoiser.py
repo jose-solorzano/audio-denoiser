@@ -56,16 +56,17 @@ class AudioDenoiser:
         @param auto_scale: Normalize the scale of the waveform before processing. Recommended for low-volume audio.
         @return: A denoised waveform.
         """
-        waveform = waveform.cpu()
+        waveform = waveform.to(self.device)
         if auto_scale:
             w_t_std = self._trimmed_dev(waveform)
             waveform = waveform * _expected_t_std / w_t_std
         if sample_rate != self.model_sample_rate:
             transform = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=self.model_sample_rate)
+            transform = transform.to(self.device)
             waveform = transform(waveform)
         hop_len = self.n_fft // 2
-        spectrogram = create_spectrogram(waveform, n_fft=self.n_fft, hop_length=hop_len)
-        spectrogram = spectrogram.to(self.device)
+        spectrogram = create_spectrogram(waveform, n_fft=self.n_fft, hop_length=hop_len,
+                                         device=self.device)
         num_a_channels = spectrogram.size(0)
         with torch.no_grad():
             results = []
@@ -92,12 +93,13 @@ class AudioDenoiser:
                 denoised_sp = denoised_sp.contiguous().view(1, fft_size, adj_num_frames)
                 # denoised_sp: (1, 257, adj_num_frames)
                 denoised_sp = denoised_sp[:, :, :num_frames]
-                denoised_sp = denoised_sp.cpu()
-                denoised_waveform = reconstruct_from_spectrogram(denoised_sp, num_iterations=self.num_iterations)
+                denoised_waveform = reconstruct_from_spectrogram(denoised_sp,
+                                                                 num_iterations=self.num_iterations,
+                                                                 device=self.device)
                 # denoised_waveform: (1, num_samples)
                 results.append(denoised_waveform)
             cpu_results = torch.cat(results)
-            return cpu_results if return_cpu_tensor else cpu_results.to(self.device)
+            return cpu_results.cpu() if return_cpu_tensor else cpu_results
 
     def process_audio_file(self, in_audio_file: str, out_audio_file: str, auto_scale: bool = False,
                            backend: Optional[str] = None):

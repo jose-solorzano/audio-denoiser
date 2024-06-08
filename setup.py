@@ -12,8 +12,8 @@ URL = 'https://github.com/jose-solorzano/audio-denoiser'
 REQUIRES = [
     'numpy>=1.23',
     'tqdm>=4.0.0',
-    'torch>=2.0.0',
-    'torchaudio>=2.0.0',
+    'torch>=2.1.0',
+    'torchaudio>=2.1.0',
     'transformers>=4.28.0',
 ]
 
